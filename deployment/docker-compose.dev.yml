@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  # Frontend Service
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.dev
+    image: bitebase/frontend:dev
+    container_name: bitebase-frontend-dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:8000
+      - VITE_AGENTIC_URL=http://localhost:7860
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    networks:
+      - bitebase-network
+    command: npm run dev
+
+  # Backend API Service
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.dev
+    image: bitebase/backend:dev
+    container_name: bitebase-backend-dev
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://bitebase:${DB_PASSWORD}@db:5432/bitebase
+      - OLLAMA_URL=http://ollama:11434
+      - LANGFLOW_URL=http://langflow:7860
+      - JWT_SECRET=${JWT_SECRET}
+      - DEBUG=True
+    volumes:
+      - ../backend:/app
+    depends_on:
+      - db
+    networks:
+      - bitebase-network
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+  # Database Service
+  db:
+    image: postgres:15-alpine
+    container_name: bitebase-db-dev
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=bitebase
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=bitebase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bitebase-network
+
+  # Ollama Service (simplified for dev)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: bitebase-ollama-dev
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - bitebase-network
+
+  # Langflow Service 
+  langflow:
+    image: langflowai/langflow:latest
+    container_name: bitebase-langflow-dev
+    restart: unless-stopped
+    ports:
+      - "7860:7860"
+    environment:
+      - LANGFLOW_DATABASE_URL=sqlite:///./langflow.db
+      - LANGFLOW_SERVER_HOST=0.0.0.0
+      - LANGFLOW_SERVER_PORT=7860
+    volumes:
+      - langflow_data:/app/langflow
+    networks:
+      - bitebase-network
+
+networks:
+  bitebase-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    name: bitebase-postgres-dev_data
+  ollama_data:
+    name: bitebase-ollama-dev_data
+  langflow_data:
+    name: bitebase-langflow-dev_data 

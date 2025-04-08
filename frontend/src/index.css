@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  :root {
+    /* BiteBase Intelligence Brand Colors */
+    --primary-rgb: 116, 195, 101; /* #74C365 Green */
+    --primary-hsl: 111 42% 58%;
+    --primary: var(--primary-hsl);
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary-rgb: 226, 61, 40; /* #E23D28 Red */
+    --secondary-hsl: 7 77% 52%;
+    --secondary: var(--secondary-hsl);
+    --secondary-foreground: 0 0% 100%;
+    
+    --accent-rgb: 244, 196, 49; /* #F4C431 Yellow */
+    --accent-hsl: 45 90% 57%;
+    --accent: var(--accent-hsl);
+    --accent-foreground: 0 0% 12%;
+    
+    /* Neutral colors */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 7%; /* #121212 */
+    
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 7%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 7%;
+    
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
+    
+    --destructive: 7 77% 52%; /* Same as secondary */
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 111 42% 58%; /* Same as primary */
+    
+    --radius: 0.5rem;
+    
+    /* Chart colors */
+    --chart-1: 111 42% 58%; /* Primary */
+    --chart-2: 7 77% 52%; /* Secondary */
+    --chart-3: 45 90% 57%; /* Accent */
+    --chart-4: 185 65% 40%; /* Teal */
+    --chart-5: 265 70% 45%; /* Purple */
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "JetBrains Mono", monospace;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  h1 {
+    font-size: 3.5rem;
+  }
+  h2 {
+    font-size: 3rem;
+  }
+  h3 {
+    font-size: 2.25rem;
+  }
+  h4 {
+    font-size: 1.75rem;
+  }
+  h5 {
+    font-size: 1.25rem;
+  }
+  h6 {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      font-size: 14px;
+    }
+    h1 {
+      font-size: 2.5rem;
+    }
+    h2 {
+      font-size: 2rem;
+    }
+    h3 {
+      font-size: 1.75rem;
+    }
+    h4 {
+      font-size: 1.5rem;
+    }
+    h5 {
+      font-size: 1.125rem;
+    }
+    h6 {
+      font-size: 1rem;
+    }
+  }
+}
+
+/* Custom component classes */
+@layer components {
+  .card {
+    @apply bg-card text-card-foreground rounded-lg border border-border shadow-sm p-6;
+  }
+  
+  .glass-panel {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 rounded-lg shadow-md;
+  }
+  
+  .metric-card {
+    @apply flex flex-col p-6 bg-card rounded-lg border border-border shadow-sm;
+  }
+  
+  .section {
+    @apply py-12 px-4 md:px-6 lg:px-8 w-full;
+  }
+}
